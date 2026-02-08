@@ -1,0 +1,129 @@
+[tool.poetry]
+name = "vocal-biomarkers-ml"
+version = "1.0.0"
+description = "Vocal Biomarkers for Respiratory Disease Detection using Machine Learning"
+authors = [
+    "Carlos Chinchilla Corbacho <cchinchilla@usal.es>"
+]
+license = "CC-BY-NC-ND-4.0"
+readme = "README.md"
+repository = "https://github.com/cchinchilla-dev/vocal-biomarkers-ml"
+keywords = [
+    "covid-19",
+    "machine-learning",
+    "voice-analysis",
+    "biomechanical-markers",
+    "acoustic-features",
+    "feature-selection",
+    "respiratory-diseases"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+packages = [{include = "voice_analysis", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+numpy = "^1.24.0"
+pandas = "^2.0.0"
+scikit-learn = "1.3.2"
+scipy = "^1.11.0"
+matplotlib = "^3.7.0"
+seaborn = "^0.12.0"
+librosa = "^0.10.0"
+praat-parselmouth = "^0.4.3"
+imbalanced-learn = "0.12.3"
+xgboost = "2.0.3"
+lightgbm = "4.5.0"
+pyswarm = "^0.6"
+pyyaml = "^6.0"
+pydantic = "^2.0.0"
+pydantic-settings = "^2.0.0"
+graphviz = "^0.20.0"
+joblib = "^1.3.0"
+tqdm = "^4.66.0"
+statsmodels = "^0.14.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+pytest-xdist = "^3.3.0"
+black = "^23.0.0"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+mypy = "^1.5.0"
+pre-commit = "^3.4.0"
+types-PyYAML = "^6.0.0"
+pandas-stubs = "^2.0.0"
+
+[tool.poetry.group.notebooks.dependencies]
+jupyter = "^1.0.0"
+ipykernel = "^6.25.0"
+
+[tool.poetry.scripts]
+voice-analysis = "voice_analysis.__main__:main"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | data
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+known_first_party = ["voice_analysis"]
+skip = [".venv", "data"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+exclude = ["tests", "notebooks"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-v --cov=src/voice_analysis --cov-report=term-missing --cov-report=html"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.coverage.run]
+source = ["src/voice_analysis"]
+omit = ["tests/*", "*/__init__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]
